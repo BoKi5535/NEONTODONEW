@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>todo-ish</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="bg-grad"></div>
+
+  <header class="top glassy">
+    <h1>NEONTODO</h1>
+    <div class="right">
+      <div class="clock" aria-live="polite">
+        <span id="clock-time">00:00:00</span>
+        <span id="clock-date">—</span>
+      </div>
+      <button id="theme" class="icon-btn" title="Theme"><span class="sun">☀</span><span class="moon">🌙</span></button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="toolbar glassy">
+      <form id="form" autocomplete="off">
+        <input id="new" type="text" placeholder="What to do?" required>
+        <input id="due" type="date">
+        <select id="priority">
+          <option value="normal" selected>Priority</option>
+          <option value="low">Low</option>
+          <option value="normal">Normal</option>
+          <option value="high">High</option>
+          <option value="urgent">Urgent</option>
+        </select>
+        <input id="category" type="text" placeholder="Category">
+        <button type="submit" class="btn primary">Add</button>
+      </form>
+
+      <div class="filters">
+        <input id="search" type="search" placeholder="Search…">
+        <select id="status">
+          <option value="all">All</option>
+          <option value="open">Open</option>
+          <option value="done">Completed</option>
+          <option value="overdue">Overdue</option>
+        </select>
+        <select id="sort">
+          <option value="created-desc">Newest</option>
+          <option value="created-asc">Oldest</option>
+          <option value="due-asc">Due soon</option>
+          <option value="due-desc">Due latest</option>
+          <option value="priority-desc">High priority</option>
+          <option value="priority-asc">Low priority</option>
+        </select>
+        <button id="clear-done" class="btn subtle">Clear done</button>
+      </div>
+    </section>
+
+    <section class="stats glassy">
+      <div><span id="count-open">0</span> open</div>
+      <div><span id="count-done">0</span> done</div>
+      <div><span id="count-total">0</span> total</div>
+    </section>
+
+    <ul id="list" class="list glassy" aria-live="polite"></ul>
+
+    <footer class="progress glassy">
+      <div class="bar" id="bar"><span id="bar-label">0%</span></div>
+    </footer>
+  </main>
+
+  <template id="item-template">
+    <li class="item" draggable="true">
+      <label class="check">
+        <input type="checkbox">
+        <span class="tick"></span>
+      </label>
+      <div class="main">
+        <div class="row">
+          <span class="text"></span>
+          <span class="badges">
+            <span class="badge prio"></span>
+            <span class="badge cat"></span>
+            <span class="badge due"></span>
+          </span>
+        </div>
+        <div class="meta"></div>
+      </div>
+      <div class="actions">
+        <button class="btn tiny edit">Edit</button>
+        <button class="btn tiny del">Delete</button>
+      </div>
+    </li>
+  </template>
+
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-card glassy">
+      <h2 id="modal-title">Edit task</h2>
+      <form id="edit-form">
+        <label>Text <input id="edit-text" required></label>
+        <label>Due <input id="edit-due" type="date"></label>
+        <label>Priority
+          <select id="edit-priority">
+            <option value="low">Low</option>
+            <option value="normal">Normal</option>
+            <option value="high">High</option>
+            <option value="urgent">Urgent</option>
+          </select>
+        </label>
+        <label>Category <input id="edit-category"></label>
+        <div class="row end">
+          <button type="button" class="btn subtle" id="cancel-edit">Cancel</button>
+          <button class="btn primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

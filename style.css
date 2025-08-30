@@ -1,0 +1,132 @@
+/* todo-ish styles — kept simple-ish, still cool */
+:root{
+  --bg:#0e1324;
+  --text:#e7ecf3;
+  --muted:#9aa3b2;
+  --card:rgba(255,255,255,0.06);
+  --line:rgba(255,255,255,0.12);
+  --main:#7c5cff;
+  --accent:#00e5ff;
+  --ok:#22c55e;
+  --warn:#f59e0b;
+  --bad:#ef4444;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+
+.bg-grad{
+  position:fixed; inset:0; pointer-events:none;
+  background: radial-gradient(900px 900px at 80% -10%, rgba(124,92,255,.25), transparent 60%),
+              radial-gradient(700px 700px at -10% 110%, rgba(0,229,255,.18), transparent 60%);
+  filter: blur(36px);
+}
+
+.glassy{
+  background:var(--card);
+  border:1px solid var(--line);
+  backdrop-filter: blur(8px) saturate(1.1);
+  border-radius:14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.3);
+}
+
+.top{
+  position:sticky; top:0; z-index:10;
+  margin:16px; padding:10px 14px;
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+}
+.top h1{margin:0; font-size:20px; letter-spacing:.2px}
+.right{display:flex; align-items:center; gap:10px}
+.clock{display:flex; flex-direction:column; align-items:flex-end; font-variant-numeric:tabular-nums}
+.clock #clock-time{font-weight:800}
+.clock #clock-date{font-size:12px; color:var(--muted)}
+
+.wrap{max-width:880px; margin:20px auto 64px; padding:0 16px}
+
+.toolbar{padding:12px; display:grid; gap:10px}
+#form{display:grid; grid-template-columns:1.6fr .9fr .9fr 1fr auto; gap:8px}
+#form input, #form select{min-height:40px}
+#form input, #form select, #form button{border-radius:12px; border:1px solid var(--line); background:rgba(255,255,255,.03); color:var(--text); padding:10px 12px; outline:none}
+#form button{border:1px solid var(--main); background:linear-gradient(135deg,var(--main), #a78bfa); font-weight:700; cursor:pointer}
+
+.filters{display:grid; grid-template-columns:1.2fr .8fr .8fr auto; gap:8px}
+.filters input, .filters select, .filters button{border-radius:10px; border:1px solid var(--line); background:rgba(255,255,255,.03); color:var(--text); padding:10px 12px}
+.filters button{cursor:pointer}
+
+.stats{margin:12px 0; padding:10px 14px; display:flex; gap:16px; align-items:center; font-size:14px; color:var(--muted)}
+.stats span{font-weight:800; color:var(--text)}
+
+.list{padding:0; margin:12px 0; list-style:none}
+.item{display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:12px; padding:12px; border-bottom:1px solid var(--line);}
+.item .text{font-weight:600}
+.item .meta{font-size:12px; color:var(--muted); margin-top:6px}
+.item .badges{display:flex; gap:6px; align-items:center}
+.badge{font-size:11px; padding:4px 8px; border-radius:999px; border:1px solid var(--line); background:rgba(255,255,255,.04)}
+.badge.prio.low{border-color:#3b82f6}
+.badge.prio.normal{border-color:#8b5cf6}
+.badge.prio.high{border-color:#f59e0b}
+.badge.prio.urgent{border-color:#ef4444}
+.badge.cat{color:var(--muted)}
+.badge.due.overdue{color:#ef4444; border-color:#ef4444}
+.badge.due.soon{color:#f59e0b; border-color:#f59e0b}
+.badge.due.later{color:#22c55e; border-color:#22c55e}
+
+.check{display:grid; place-items:center; width:24px; height:24px; border-radius:8px; border:1px solid var(--line); cursor:pointer; position:relative}
+.check input{opacity:0; position:absolute; inset:0; cursor:pointer}
+.check .tick{width:16px; height:16px; border-radius:6px; background:transparent; transition:transform .15s ease, background .2s ease, box-shadow .2s}
+.item.done .check .tick{background:linear-gradient(135deg,#22c55e,#4ade80); box-shadow:0 0 16px rgba(34,197,94,.6)}
+.item.done .text{color:#9fb1c7; text-decoration:line-through; text-decoration-thickness:2px;}
+
+.actions{display:flex; gap:6px}
+.btn{border:none}
+.btn.primary{color:white}
+.btn.subtle{color:var(--text)}
+.btn.tiny{font-size:12px; padding:6px 8px; border-radius:8px; border:1px solid var(--line); background:rgba(255,255,255,.03); cursor:pointer}
+.btn.tiny:hover{background:rgba(255,255,255,.07)}
+.icon-btn{width:38px; height:38px; display:grid; place-items:center; border-radius:12px; border:1px solid var(--line); background:rgba(255,255,255,.04); cursor:pointer}
+.icon-btn .sun{display:inline}
+.icon-btn .moon{display:none}
+:root[data-theme="light"] .icon-btn .sun{display:none}
+:root[data-theme="light"] .icon-btn .moon{display:inline}
+
+.progress{margin-top:18px; padding:8px}
+.progress .bar{height:14px; background:rgba(255,255,255,.06); border:1px solid var(--line); border-radius:999px; position:relative; overflow:hidden}
+.progress .bar::before{
+  content:""; position:absolute; inset:0; transform:translateX(var(--x, -100%));
+  background:linear-gradient(90deg, rgba(124,92,255,.7), rgba(0,229,255,.7));
+  width:var(--w,0%);
+  transition:width .3s ease;
+}
+.progress #bar-label{position:absolute; inset:0; display:grid; place-items:center; font-size:12px; font-weight:800; color:#0b1020}
+
+.modal.hidden{display:none}
+.modal{position:fixed; inset:0; display:grid; place-items:center; padding:20px; background:rgba(0,0,0,.4)}
+.modal-card{max-width:460px; width:100%; padding:16px; display:grid; gap:10px}
+.modal-card form{display:grid; gap:10px}
+.modal-card label{display:grid; gap:6px; font-size:14px; color:var(--muted)}
+.modal-card input, .modal-card select{border-radius:10px; border:1px solid var(--line); background:rgba(255,255,255,.05); color:var(--text); padding:10px 12px}
+
+/* Light mode */
+:root[data-theme="light"]{
+  --bg:#f6f7fb;
+  --text:#101826;
+  --muted:#5b6576;
+  --card:rgba(255,255,255,.82);
+  --line:rgba(16,24,38,.08);
+  box-shadow:none;
+}
+:root[data-theme="light"] .progress #bar-label{color:#101826}
+
+@media (max-width:800px){
+  #form{grid-template-columns:1fr 1fr 1fr 1fr auto}
+  .filters{grid-template-columns:1fr 1fr 1fr auto}
+}
+@media (max-width:560px){
+  #form{grid-template-columns:1fr 1fr; grid-auto-rows:auto}
+  .filters{grid-template-columns:1fr 1fr; grid-auto-rows:auto}
+}
